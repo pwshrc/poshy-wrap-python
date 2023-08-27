@@ -25,8 +25,9 @@ function Get-ModuleExports {
         Set-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Value $true -Scope Global -Option ReadOnly -Force
     }
     try {
+        [System.Management.Automation.PSModuleInfo] $moduleInfo = $null
+        $moduleInfo = Import-Module -Name $Psm1Path -Force -DisableNameChecking -PassThru
         try {
-            [System.Management.Automation.PSModuleInfo] $moduleInfo = Import-Module -Name $Psm1Path -Force -DisableNameChecking -PassThru
             if ($null -eq $moduleInfo) {
                 throw "Failed to import module from path '$Psm1Path'."
             }
