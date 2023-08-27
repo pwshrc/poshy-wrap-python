@@ -31,7 +31,7 @@ function Get-ModuleExports {
         }
         try {
             [System.Management.Automation.PSModuleInfo] $moduleInfo = $null
-            $moduleInfo = Import-Module -Name $Psm1Path -Force -DisableNameChecking -PassThru
+            $moduleInfo = Import-Module -Name $Psm1Path -NoClobber -Force -DisableNameChecking -PassThru
             try {
                 if ($null -eq $moduleInfo) {
                     throw "Failed to import module from path '$Psm1Path'."
