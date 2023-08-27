@@ -41,9 +41,9 @@ function Import-PSGalleryModuleNested {
         [string] $psd1Path = "$PSScriptRoot${ds}..${ds}..${ds}lib${ds}$($_.id).$($_.version)${ds}$($_.id).psd1"
         [string] $psm1Path = "$PSScriptRoot${ds}..${ds}..${ds}lib${ds}$($_.id).$($_.version)${ds}$($_.id).psm1"
         if (Test-Path -Path $psd1Path -PathType Leaf -ErrorAction SilentlyContinue) {
-            $modulesLoaded += @(Import-Module $psd1Path -Force -DisableNameChecking -PassThru)
+            $modulesLoaded += @(Import-Module $psd1Path -NoClobber -Force -DisableNameChecking -PassThru)
         } elseif (Test-Path -Path $psm1Path -PathType Leaf -ErrorAction SilentlyContinue) {
-            $modulesLoaded += @(Import-Module $psm1Path -Force -DisableNameChecking -PassThru)
+            $modulesLoaded += @(Import-Module $psm1Path -NoClobber -Force -DisableNameChecking -PassThru)
         } else {
             throw "Could not find a `.psd1` or `.psm1` for module '$($_.id)' at version '$($_.version)'."
         }
