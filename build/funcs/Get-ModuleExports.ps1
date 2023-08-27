@@ -21,8 +21,8 @@ function Get-ModuleExports {
     }
     [string] $ds = [System.IO.Path]::DirectorySeparatorChar
     . "${PSScriptRoot}${ds}Import-PSGalleryModuleNested.ps1"
-    [PSModuleInfo[]] $modulesLoaded = $null
-    $modulesLoaded = Import-PSGalleryModuleNested -RuntimeDependencies -SkipAlreadyLoaded
+    [PSModuleInfo[]] $modulesToUnload = $null
+    $modulesToUnload = Import-PSGalleryModuleNested -RuntimeDependencies -SkipAlreadyLoaded
     try {
         [bool] $madeGlobalVariable = $false
         if (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ErrorAction SilentlyContinue)) {
@@ -54,8 +54,10 @@ function Get-ModuleExports {
             }
         }
     } finally {
-        if ($null -ne $modulesLoaded) {
-            $modulesLoaded | Remove-Module -Force
+        if ($null -ne $modulesToUnload) {
+            [array]::Reverse($modulesToUnload) `
+                | Select-Object -ExpandProperty path -Unique `
+                | Remove-Module -Force -ErrorAction SilentlyContinue
         }
     }
 
