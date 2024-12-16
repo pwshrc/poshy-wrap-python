@@ -1,6 +1,7 @@
 #!/usr/bin/env pwsh
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
+#Requires -Modules @{ ModuleName = "poshy-lucidity"; RequiredVersion = "0.4.1" }
 
 
 Get-ChildItem -Path "$PSScriptRoot/*.ps1" | ForEach-Object {
